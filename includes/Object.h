@@ -87,8 +87,6 @@ t_object			new_sphere(t_vec3 pos, float radius, t_vec3 color);
 t_object			new_plane(t_vec3 point, t_vec3 normal, t_vec3 color);
 t_object			new_cylinder(t_vec3 normal, t_vec3 center,
 						t_vec3 height_diameter, t_vec3 color);
-t_object			new_cone_cap(t_vec3 normal, t_vec3 center,
-						t_vec3 height_diameter, t_vec3 color);
 t_object			new_cone(t_vec3 normal, t_vec3 center,
 						t_vec3 height_diameter, t_vec3 color);
 t_object			new_rect(t_vec3 centre_point, t_vec3 normal, t_vec3 color,
@@ -99,12 +97,15 @@ t_mat4x4			get_y_rotation_matrix(float angle);
 t_mat4x4			get_z_rotation_matrix(float angle);
 t_object			*get_next_object_by_type(t_scene *scene, size_t *i,
 						t_object_type type);
+void				rotate_axis(t_vec3 normal, t_vec3 *u, t_vec3 *v,
+						float angle);
 
 void				solve_quad_eq(t_quad_eq eq, t_hit *hit, t_ray ray);
 t_hit				cap_intersection(t_vec3 cap_normal, t_vec3 cap_center,
 						float radius, t_ray ray);
 void				cylinder_caps(t_hit *hit, t_object *o, t_ray ray);
 t_hit				cylinder_intersection(t_object *object, t_ray ray);
+t_hit				cone_cap_intersection(t_object *obj, t_ray ray);
 
 t_vec4				cap_map_uv(t_vec3 vec, t_vec3 u, t_vec3 v, float radius);
 t_vec4				cone_map_uv(t_hit hit, t_object *obj);

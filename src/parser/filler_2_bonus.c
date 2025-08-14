@@ -105,6 +105,7 @@ int	fill_cone(t_parser *p, char **param, size_t count)
 	o = new_cone(o.normal, o.position, height_diam, o.color);
 	if (count > 6 && fill_object_params(&o, param + 6))
 		return (1);
+	o.intersection = &cone_cap_intersection;
 	if (add_to_arr(&p->objects, &o) == NULL)
 		return (log_error("Malloc failed"));
 	return (0);
@@ -127,7 +128,7 @@ int	fill_cone_cap(t_parser *p, char **param, size_t count)
 		return (log_error("invalid diameter param for capped cone"));
 	if (get_vec3(&o.color, param[5]) || is_valid_color(o.color))
 		return (log_error("invalid color param for capped cone"));
-	o = new_cone_cap(o.normal, o.position, height_diam, o.color);
+	o = new_cone(o.normal, o.position, height_diam, o.color);
 	if (count > 6 && fill_object_params(&o, param + 6))
 		return (1);
 	if (add_to_arr(&p->objects, &o) == NULL)

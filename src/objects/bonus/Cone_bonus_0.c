@@ -26,6 +26,12 @@ t_object	new_cone(t_vec3 normal, t_vec3 center, t_vec3 height_diameter,
 	cone.height = height_diameter.x;
 	cone.radius = height_diameter.y / 2;
 	cone.color = vec3_scale(color, 1.0f / 255.0f);
+	cone.orth_normal = vec3_normalize(vec3_cross(cone.normal, (t_vec3){0.0f,
+				1.0f, 0.0f}));
+	if (vec3_magnitude(cone.orth_normal) <= ZERO)
+		cone.orth_normal = vec3_normalize(vec3_cross(cone.normal, (t_vec3){0.0f,
+					0.0f, 1.0f}));
+	cone.orth_normal2 = vec3_cross(cone.normal, cone.orth_normal);
 	cone_recalculate(&cone);
 	return (cone);
 }

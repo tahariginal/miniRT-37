@@ -47,11 +47,6 @@ void	cylinder_recalculate(t_object *obj)
 				obj->height / 2));
 	obj->bottom_cap_center = vec3_add_vec3(obj->position,
 			vec3_scale(obj->anti_normal, obj->height / 2));
-	obj->orth_normal = vec3_cross(obj->normal, (t_vec3){1.0f, 0.0f, 0.0f});
-	if (vec3_magnitude(obj->orth_normal) <= ZERO)
-		obj->orth_normal = vec3_cross(obj->normal, (t_vec3){0.0f, 0.0f, 1.0f});
-	obj->orth_normal = vec3_normalize(obj->orth_normal);
-	obj->orth_normal2 = vec3_cross(obj->normal, obj->orth_normal);
 }
 
 t_object	new_cylinder(t_vec3 normal, t_vec3 center, t_vec3 height_diameter,
@@ -68,6 +63,12 @@ t_object	new_cylinder(t_vec3 normal, t_vec3 center, t_vec3 height_diameter,
 	cylinder.height = height_diameter.x;
 	cylinder.radius = height_diameter.y / 2;
 	cylinder.color = vec3_scale(color, 1.0f / 255.0f);
+	cylinder.orth_normal = vec3_normalize(vec3_cross(cylinder.normal,
+				(t_vec3){0.0f, 1.0f, 0.0f}));
+	if (vec3_magnitude(cylinder.orth_normal) <= ZERO)
+		cylinder.orth_normal = vec3_normalize(vec3_cross(cylinder.normal,
+					(t_vec3){0.0f, 0.0f, 1.0f}));
+	cylinder.orth_normal2 = vec3_cross(cylinder.normal, cylinder.orth_normal);
 	cylinder_recalculate(&cylinder);
 	return (cylinder);
 }

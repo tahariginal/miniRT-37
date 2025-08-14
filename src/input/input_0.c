@@ -6,7 +6,7 @@
 /*   By: msitni <msitni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:05:09 by msitni            #+#    #+#             */
-/*   Updated: 2024/09/27 12:45:01 by msitni           ###   ########.fr       */
+/*   Updated: 2024/10/03 10:29:27 by msitni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,8 @@ int	mouse_hook_up(int button, int x, int y, t_renderer *renderer)
 	return (0);
 }
 
-#ifndef INPUT_MAC
-
 int	on_destroy(t_renderer *r)
 {
 	mlx_loop_end(r->mlx_context);
 	return (0);
 }
-
-#else
-
-int	on_destroy(t_renderer *r)
-{
-	free_all(r);
-	exit(0);
-	return (0);
-}
-
-#endif

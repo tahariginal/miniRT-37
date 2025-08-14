@@ -22,11 +22,6 @@ NAME_b = miniRT_bonus
 CFLAGS = -Iincludes -Wall -Wextra -Werror
 LDFLAGS = -Lmlx_Linux -lmlx_Linux -lXext -lX11 -lm
 
-ifeq ($(shell uname -s),Darwin)
-	CFLAGS += -DINPUT_MAC
-	LDFLAGS = -L. -lmlx -framework OpenGL -framework AppKit
-endif
-
 .PHONY : re be fclean clean all bonus
 .SECONDARY : ${OBJ_m} ${OBJ_b}
 

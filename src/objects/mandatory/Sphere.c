@@ -24,11 +24,12 @@ t_vec4	sphere_map_uv(t_hit hit, t_object *obj)
 	t_vec3	point_vector;
 
 	point_vector = vec3_sub_vec3(hit.hit_point, obj->position);
-	map.x = atan2f(point_vector.y, point_vector.x) / PI;
+	map.x = atan2f(-vec3_dot(obj->orth_normal, point_vector),
+			vec3_dot(obj->orth_normal2, point_vector)) / PI;
 	map.z = map.x * (obj->radius);
 	map.x = map.x * 0.5f + 0.5f;
-	map.w = vec3_dot(point_vector, (t_vec3){0.0f, 0.0f, -1.0f});
-	map.y = (map.w / (obj->radius)) * 0.5f + 0.5f;
+	map.w = vec3_dot(point_vector, obj->normal);
+	map.y = (-map.w / (obj->radius)) * 0.5f + 0.5f;
 	return (map);
 }
 
@@ -45,9 +46,9 @@ t_vec4	sphere_map_uv(t_hit hit, t_object *obj)
 	a = (rdx² + rdy²
 			+ rdz²) = > this always will be 1 cause ray.dir is normalized
 	b = 2 * (w.x * rdx + w.y * rdy + w.z * rdz) = 2 * dot(w, r.d)
-	c = (w.x² + w.y² + w.z² - r²) 
-	  = dot(w,w) - r² << Can be calculated & stored once,
-						 instead of always calculating it hum ...
+	c = (w.x² + w.y² + w.z² - r²)
+		= dot(w,w) - r² << Can be calculated & stored once,
+							instead of always calculating it hum ...
 	t = (-b +/- sqrtf(b² - 4 a c)) / (2 * a)
 */
 
@@ -83,5 +84,8 @@ t_object	new_sphere(t_vec3 pos, float radius, t_vec3 color)
 	sphere.position = pos;
 	sphere.radius = radius;
 	sphere.color = vec3_scale(color, 1.0f / 255.0f);
+	sphere.normal = (t_vec3){0, 0, 1};
+	sphere.orth_normal = (t_vec3){1, 0, 0};
+	sphere.orth_normal2 = (t_vec3){0, 1, 0};
 	return (sphere);
 }
